@@ -1,4 +1,7 @@
 export const texts = {
+	intro: {
+		cta: "Abrir recuerdo",
+	},
 	hero: {
 		label: "Nuestro 4º aniversario",
 		names: {

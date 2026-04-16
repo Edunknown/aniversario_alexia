@@ -5,7 +5,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { Heart, Quote, ChevronDown, ArrowLeft, Sparkles } from "lucide-react";
+import { Heart, Quote, ChevronDown, ArrowLeft, Sparkles, Pause, Play } from "lucide-react";
 import texts from "./data/texts.js";
 
 const LETTER_ROUTE = "#/carta";
@@ -13,6 +13,23 @@ const LETTER_ROUTE = "#/carta";
 const letterText = texts.letter.paragraphs.join("\n\n");
 
 const getCurrentRoute = () => (window.location.hash === LETTER_ROUTE ? "letter" : "home");
+
+const IntroPage = ({ onEnter }: { onEnter: () => void }) => (
+	<div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-surface px-6">
+		<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(252,180,180,0.22),_transparent_32%),linear-gradient(180deg,_rgba(247,243,237,0.92),_rgba(253,249,243,1))]" />
+		<motion.button
+			type="button"
+			onClick={onEnter}
+			initial={{ opacity: 0, y: 18 }}
+			animate={{ opacity: 1, y: 0 }}
+			whileHover={{ y: -2 }}
+			whileTap={{ scale: 0.98 }}
+			className="relative z-10 rounded-full border border-primary/20 bg-primary px-8 py-4 text-sm font-semibold uppercase tracking-[0.24em] text-surface shadow-[0_20px_50px_rgba(134,79,80,0.22)] transition-colors duration-300 hover:bg-[#774445]"
+		>
+			{texts.intro.cta}
+		</motion.button>
+	</div>
+);
 
 const Hero = () => (
 	<section className="relative h-screen flex flex-col justify-center items-center px-8 text-center overflow-hidden">
@@ -290,6 +307,8 @@ const LetterPage = () => {
 export default function App() {
 	const [route, setRoute] = useState<"home" | "letter">(getCurrentRoute);
 	const audioRef = useRef<HTMLAudioElement | null>(null);
+	const [isAudioManuallyPaused, setIsAudioManuallyPaused] = useState(false);
+	const [hasEntered, setHasEntered] = useState(false);
 
 	useEffect(() => {
 		const handleHashChange = () => setRoute(getCurrentRoute());
@@ -308,14 +327,23 @@ export default function App() {
 		}
 
 		const tryPlay = () => {
+			if (isAudioManuallyPaused) {
+				return;
+			}
+
 			void audio.play().catch(() => {
 				// Some browsers block autoplay with sound until the first user interaction.
 			});
 		};
 
-		if (route === "home") {
+		const handleCanPlay = () => {
+			tryPlay();
+		};
+
+		if (hasEntered && route === "home") {
 			audio.volume = 0.6;
 			tryPlay();
+			audio.addEventListener("canplay", handleCanPlay);
 
 			const unlockAudio = () => {
 				tryPlay();
@@ -325,18 +353,56 @@ export default function App() {
 			window.addEventListener("keydown", unlockAudio, { once: true });
 
 			return () => {
+				audio.removeEventListener("canplay", handleCanPlay);
 				window.removeEventListener("pointerdown", unlockAudio);
 				window.removeEventListener("keydown", unlockAudio);
 			};
 		}
 
 		audio.pause();
-	}, [route]);
+	}, [hasEntered, isAudioManuallyPaused, route]);
+
+	const toggleAudio = () => {
+		const audio = audioRef.current;
+
+		if (!audio) {
+			return;
+		}
+
+		if (audio.paused || isAudioManuallyPaused) {
+			setIsAudioManuallyPaused(false);
+			void audio.play().catch(() => {
+				// Playback can still be blocked by the browser until interaction is allowed.
+			});
+			return;
+		}
+
+		audio.pause();
+		setIsAudioManuallyPaused(true);
+	};
+
+	const handleEnter = () => {
+		setHasEntered(true);
+	};
 
 	return (
 		<div className="min-h-screen">
 			<audio ref={audioRef} src="/media/music.mp3" autoPlay loop preload="auto" className="hidden" />
-			{route === "letter" ? (
+			{hasEntered && route === "home" ? (
+				<motion.button
+					type="button"
+					onClick={toggleAudio}
+					whileHover={{ y: -2 }}
+					whileTap={{ scale: 0.97 }}
+					className="fixed left-4 top-4 z-50 inline-flex items-center gap-3 rounded-full border border-primary/15 bg-surface/85 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary shadow-[0_14px_35px_rgba(134,79,80,0.14)] backdrop-blur-md md:left-6 md:top-6"
+				>
+					{isAudioManuallyPaused ? <Play className="h-4 w-4 fill-current" /> : <Pause className="h-4 w-4" />}
+					<span>{isAudioManuallyPaused ? "Reanudar" : "Pausar"}</span>
+				</motion.button>
+			) : null}
+			{!hasEntered ? (
+				<IntroPage onEnter={handleEnter} />
+			) : route === "letter" ? (
 				<LetterPage />
 			) : (
 				<main>
