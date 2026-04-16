@@ -24,6 +24,10 @@
 		@apply bg-surface text-on-surface font-sans antialiased;
 	}
 
+	a {
+		color: inherit;
+	}
+
 	#root {
 		min-height: 100vh;
 	}

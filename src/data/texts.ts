@@ -1,4 +1,6 @@
-export const texts = {
+import type { AppTexts } from "../types/content";
+
+const texts: AppTexts = {
 	intro: {
 		cta: "Abrir recuerdo",
 	},
