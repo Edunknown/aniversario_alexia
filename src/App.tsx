@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Heart, Quote, ChevronDown, ArrowLeft, Sparkles } from "lucide-react";
 import texts from "./data/texts.js";
@@ -289,6 +289,7 @@ const LetterPage = () => {
 
 export default function App() {
 	const [route, setRoute] = useState<"home" | "letter">(getCurrentRoute);
+	const audioRef = useRef<HTMLAudioElement | null>(null);
 
 	useEffect(() => {
 		const handleHashChange = () => setRoute(getCurrentRoute());
@@ -299,8 +300,42 @@ export default function App() {
 		return () => window.removeEventListener("hashchange", handleHashChange);
 	}, []);
 
+	useEffect(() => {
+		const audio = audioRef.current;
+
+		if (!audio) {
+			return;
+		}
+
+		const tryPlay = () => {
+			void audio.play().catch(() => {
+				// Some browsers block autoplay with sound until the first user interaction.
+			});
+		};
+
+		if (route === "home") {
+			audio.volume = 0.6;
+			tryPlay();
+
+			const unlockAudio = () => {
+				tryPlay();
+			};
+
+			window.addEventListener("pointerdown", unlockAudio, { once: true });
+			window.addEventListener("keydown", unlockAudio, { once: true });
+
+			return () => {
+				window.removeEventListener("pointerdown", unlockAudio);
+				window.removeEventListener("keydown", unlockAudio);
+			};
+		}
+
+		audio.pause();
+	}, [route]);
+
 	return (
 		<div className="min-h-screen">
+			<audio ref={audioRef} src="/media/music.mp3" autoPlay loop preload="auto" className="hidden" />
 			{route === "letter" ? (
 				<LetterPage />
 			) : (
