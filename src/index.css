@@ -1,71 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Noto Serif", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+	--font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+	--font-serif: "Noto Serif", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
-  --color-surface: #fdf9f3;
-  --color-surface-container-low: #f7f3ed;
-  --color-surface-container-high: #ebe8e2;
-  --color-surface-container-highest: #e6e2dc;
-  --color-primary: #864f50;
-  --color-primary-fixed-dim: #fcb4b4;
-  --color-primary-container: #ffbebe;
-  --color-on-surface: #1c1c18;
-  --color-on-surface-variant: #504444;
-  --color-outline-variant: #d4c2c2;
+	--color-surface: #fdf9f3;
+	--color-surface-container-low: #f7f3ed;
+	--color-surface-container-high: #ebe8e2;
+	--color-surface-container-highest: #e6e2dc;
+	--color-primary: #864f50;
+	--color-primary-fixed-dim: #fcb4b4;
+	--color-primary-container: #ffbebe;
+	--color-on-surface: #1c1c18;
+	--color-on-surface-variant: #504444;
+	--color-outline-variant: #d4c2c2;
 
-  --radius-xxl: 1.5rem;
+	--radius-xxl: 1.5rem;
 }
 
 @layer base {
-  body {
-    @apply bg-surface text-on-surface font-sans antialiased;
-  }
+	body {
+		@apply bg-surface text-on-surface font-sans antialiased;
+	}
 
-  #root {
-    min-height: 100vh;
-  }
+	#root {
+		min-height: 100vh;
+	}
 }
 
 .glass {
-  background: rgba(253, 249, 243, 0.7);
-  backdrop-filter: blur(12px);
+	background: rgba(253, 249, 243, 0.7);
+	backdrop-filter: blur(12px);
 }
 
 .letter-paper {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(253, 249, 243, 0.96)),
-    repeating-linear-gradient(
-      180deg,
-      transparent 0,
-      transparent 2rem,
-      rgba(134, 79, 80, 0.06) 2rem,
-      rgba(134, 79, 80, 0.06) calc(2rem + 1px)
-    );
-  backdrop-filter: blur(16px);
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(253, 249, 243, 0.96)),
+		repeating-linear-gradient(
+			180deg,
+			transparent 0,
+			transparent 2rem,
+			rgba(134, 79, 80, 0.06) 2rem,
+			rgba(134, 79, 80, 0.06) calc(2rem + 1px)
+		);
+	backdrop-filter: blur(16px);
 }
 
 .type-caret {
-  display: inline-block;
-  width: 0.08em;
-  height: 1.1em;
-  margin-left: 0.08em;
-  vertical-align: -0.14em;
-  background: var(--color-primary);
-  animation: caret-blink 1s steps(1) infinite;
+	display: inline-block;
+	width: 0.08em;
+	height: 1.1em;
+	margin-left: 0.08em;
+	vertical-align: -0.14em;
+	background: var(--color-primary);
+	animation: caret-blink 1s steps(1) infinite;
 }
 
 @keyframes caret-blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
+	0%,
+	50% {
+		opacity: 1;
+	}
 
-  50.01%,
-  100% {
-    opacity: 0;
-  }
+	50.01%,
+	100% {
+		opacity: 0;
+	}
 }
-
