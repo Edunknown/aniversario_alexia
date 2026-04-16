@@ -23,10 +23,49 @@
   body {
     @apply bg-surface text-on-surface font-sans antialiased;
   }
+
+  #root {
+    min-height: 100vh;
+  }
 }
 
 .glass {
   background: rgba(253, 249, 243, 0.7);
   backdrop-filter: blur(12px);
+}
+
+.letter-paper {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(253, 249, 243, 0.96)),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 2rem,
+      rgba(134, 79, 80, 0.06) 2rem,
+      rgba(134, 79, 80, 0.06) calc(2rem + 1px)
+    );
+  backdrop-filter: blur(16px);
+}
+
+.type-caret {
+  display: inline-block;
+  width: 0.08em;
+  height: 1.1em;
+  margin-left: 0.08em;
+  vertical-align: -0.14em;
+  background: var(--color-primary);
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  50.01%,
+  100% {
+    opacity: 0;
+  }
 }
 
