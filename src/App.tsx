@@ -10,7 +10,7 @@ const Hero = () => (
 	<section className="relative h-screen flex flex-col justify-center items-center px-8 text-center overflow-hidden">
 		<div className="absolute inset-0 z-0">
 			<img
-				src="/public/images/portada.jpeg"
+				src="/images/portada.jpeg"
 				alt="Romantic moment"
 				className="w-full h-full object-cover opacity-30"
 				referrerPolicy="no-referrer"
@@ -69,7 +69,7 @@ const StoryQuote = () => (
 			>
 				<div className="w-full aspect-[4/5] rounded-xxl overflow-hidden shadow-sm transition-transform duration-700 group-hover:scale-105">
 					<img
-						src="/public/images/ninos.jpeg"
+						src="/images/ninos.jpeg"
 						alt="The First Chapter"
 						className="w-full h-full object-cover object-top"
 						referrerPolicy="no-referrer"
@@ -89,12 +89,12 @@ const StoryQuote = () => (
 
 const Gallery = () => {
 	const media = [
-		{ src: "/public/images/video1.mp4", aspect: "aspect-square", type: "video" },
-		{ src: "/public/images/imagen1.jpeg", aspect: "aspect-[3/4]", type: "image" },
-		{ src: "/public/images/video2.mp4", aspect: "aspect-square", type: "video" },
-		{ src: "/public/images/imagen2.jpeg", aspect: "aspect-[3/4]", type: "image" },
-		{ src: "/public/images/video3.mp4", aspect: "aspect-square", type: "video" },
-		{ src: "/public/images/imagen3.jpeg", aspect: "aspect-[4/5]", type: "image" },
+		{ src: "/images/video1.mp4", aspect: "aspect-square", type: "video" },
+		{ src: "/images/imagen1.jpeg", aspect: "aspect-[3/4]", type: "image" },
+		{ src: "/images/video2.mp4", aspect: "aspect-square", type: "video" },
+		{ src: "/images/imagen2.jpeg", aspect: "aspect-[3/4]", type: "image" },
+		{ src: "/images/video3.mp4", aspect: "aspect-square", type: "video" },
+		{ src: "/images/imagen3.jpeg", aspect: "aspect-[4/5]", type: "image" },
 	];
 
 	return (
